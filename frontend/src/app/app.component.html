@@ -1,0 +1,24 @@
+<div style="text-align: center">
+  <h1>Chat</h1>
+
+  <ul>
+    <li *ngFor="let message of chatLog">
+      {{ message }}
+  </ul>
+
+  <input id="chat-input" type="text" [(ngModel)]="newMessage" />
+
+  <div class="btn-wrapper">
+    <button class="btn btn-save" (click)="sendMessage()">Send melding</button>
+  </div>
+</div>
+
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<router-outlet></router-outlet>
