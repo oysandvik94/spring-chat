@@ -1,7 +1,7 @@
 package com.langeoys.chat;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ChatController {
 
-    @GetMapping("test")
-    public String sendMessage() {
-        return "hei";
+    @MessageMapping("sendChat")
+    @SendTo("/topic/chat")
+    public String sendChat(String chatMessage) {
+        return chatMessage;
     }
 
 }

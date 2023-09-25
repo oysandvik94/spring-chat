@@ -7,6 +7,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http'
 
+import { RxStompService } from './rx-stomp.service';
+import { rxStompServiceFactory } from './rx-stomp-service-factory';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,6 +22,10 @@ import { HttpClientModule } from '@angular/common/http'
     HttpClientModule
   ],
   providers: [
+    {
+      provide: RxStompService,
+      useFactory: rxStompServiceFactory,
+    }
   ],
   bootstrap: [AppComponent]
 })

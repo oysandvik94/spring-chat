@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CompatClient, Stomp } from '@stomp/stompjs';
+import { RxStompService } from './rx-stomp.service';
 
 @Component({
   selector: 'app-root',
@@ -8,18 +10,19 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'frontend';
 
-  private webSocket: WebSocket;
+  private stompService: RxStompService;
   chatLog: string[] = [];
   newMessage: string = "";
 
-  constructor() {
-    this.webSocket = new WebSocket('ws://localhost:8080/chat');
-    this.webSocket.onmessage = (event) => {
-      this.chatLog.push(event.data);
-    }
+  constructor(private rxStompService: RxStompService) {
+    this.stompService = rxStompService;
+    this.stompService.watch("/topic/chat").subscribe((message) => {
+      this.chatLog.push(message.body);
+    });
   }
 
+
   public sendMessage(): void {
-    this.webSocket.send(this.newMessage);
+    this.stompService.publish({ destination: '/topic/chat', body: this.newMessage })
   }
 }
