@@ -1,16 +1,15 @@
-<div style="text-align: center">
+<div id="app-wrapper" class="card">
   <h1>Chat</h1>
-
-  <ul>
-    <li *ngFor="let message of chatLog">
-      {{ message }}
-  </ul>
-
-  <input id="chat-input" type="text" [(ngModel)]="newMessage" />
-
-  <div class="btn-wrapper">
-    <button class="btn btn-save" (click)="sendMessage()">Send melding</button>
+  <div id="chat-wrapper">
+    <div id="room-panel">
+      <app-chat-room-form></app-chat-room-form>
+    </div>
+    <div id="chat-panel">
+      <app-chat-log></app-chat-log>
+    </div>
   </div>
+
+  <div></div>
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->

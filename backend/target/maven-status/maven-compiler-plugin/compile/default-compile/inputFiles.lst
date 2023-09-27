@@ -1,4 +1,5 @@
 /home/oysandvik/dev/next-movie/backend/src/main/java/com/langeoys/chat/WebSocketConfig.java
 /home/oysandvik/dev/next-movie/backend/src/main/java/com/langeoys/chat/ChatApplication.java
+/home/oysandvik/dev/next-movie/backend/src/main/java/com/langeoys/chat/ChatMessage.java
 /home/oysandvik/dev/next-movie/backend/src/main/java/com/langeoys/chat/ChatController.java
-/home/oysandvik/dev/next-movie/backend/src/main/java/com/langeoys/chat/ChatSocketHandler.java
+/home/oysandvik/dev/next-movie/backend/src/main/java/com/langeoys/chat/ChatRoomService.java

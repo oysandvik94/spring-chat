@@ -1,0 +1,21 @@
+<div class="card">
+  <div class="card-content">
+    <p *ngFor="let message of stompService.getActiveChatLog()">
+      <span class="sender">{{ message.from }}: </span>
+      <span class="message">{{ message.body }}</span>
+    </p>
+  </div>
+  <div class="card-footer">
+    <span class="p-input-icon-left" id="chat-input-wrapper">
+      <i class="pi pi-chevron-right" id="chat-icon"></i>
+      <input
+        type="text"
+        id="message-input"
+        class="chat-text-input"
+        pInputText
+        [(ngModel)]="newMessage"
+        (keyup.enter)="sendMessage()"
+      />
+    </span>
+  </div>
+</div>

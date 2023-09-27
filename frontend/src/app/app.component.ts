@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CompatClient, Stomp } from '@stomp/stompjs';
 import { RxStompService } from './rx-stomp.service';
 
 @Component({
@@ -10,19 +9,12 @@ import { RxStompService } from './rx-stomp.service';
 export class AppComponent {
   title = 'frontend';
 
-  private stompService: RxStompService;
-  chatLog: string[] = [];
+  activeChat: string = "";
   newMessage: string = "";
 
-  constructor(private rxStompService: RxStompService) {
-    this.stompService = rxStompService;
-    this.stompService.watch("/topic/chat").subscribe((message) => {
-      this.chatLog.push(message.body);
-    });
+  roomName: string = "";
+
+  constructor(public stompService: RxStompService) {
   }
 
-
-  public sendMessage(): void {
-    this.stompService.publish({ destination: '/topic/chat', body: this.newMessage })
-  }
 }

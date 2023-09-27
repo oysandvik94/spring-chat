@@ -1,0 +1,19 @@
+<div class="join-form">
+  <input id="join-input" type="text" class="chat-text-input" pInputText [(ngModel)]="newRoomName" />
+  <button
+    pButton
+    type="button"
+    class="chat-button"
+    (click)="stompService.joinRoom(newRoomName)"
+  >
+    Join
+  </button>
+</div>
+
+<p-listbox
+  id="chat-room-list"
+  styleClass="chat-list-box"
+  [options]="stompService.chatSubscriptions"
+  [(ngModel)]="stompService.activeChat"
+  optionLabel="roomName"
+></p-listbox>
