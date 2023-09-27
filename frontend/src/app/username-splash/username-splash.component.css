@@ -1,0 +1,40 @@
+#splash-input:focus{
+  outline: none;
+}
+#splash-input{
+  width: 400px;
+  text-align: center;
+  color: #f6c177;
+  background: transparent;
+  border-width: 0 0 2px 0;
+  font-size: 50px;
+  margin-right: 10px;
+}
+
+#join-link.enabled {
+  color: #f6c177;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+#join-link:hover {
+  text-decoration: underline;
+}
+
+#join-link {
+  font-size: 50px;
+  padding-top: 20px;
+  color: #6e6a86;
+  pointer-events: none;
+  text-decoration: none;
+  transition: width 0.3s ease; /* Add a smooth transition effect */
+
+}
+#username-wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+

@@ -18,6 +18,7 @@ export class RxStompService extends RxStomp {
 
   activeChat!: ChatRoom;
   chatSubscriptions: ChatRoom[] = [];
+  activeUser!: string;
 
   public getChatRooms(): string[] {
     return this.chatSubscriptions.map(x => x.roomName);
@@ -41,7 +42,7 @@ export class RxStompService extends RxStomp {
   }
 
   public sendMessage(newMessageString: string): void {
-    let newMessage: ChatMessage = { body: newMessageString, from: "foo", roomName: this.activeChat.roomName };
+    let newMessage: ChatMessage = { body: newMessageString, from: this.activeUser, roomName: this.activeChat.roomName };
     this.publish({ destination: '/topic/chat/' + this.activeChat.roomName, body: JSON.stringify(newMessage) })
   }
 }

@@ -25,4 +25,8 @@ export class ChatRoomFormComponent {
   constructor(public stompService: RxStompService) {
   }
 
+  joinRoom() {
+    this.stompService.joinRoom(this.newRoomName);
+    this.newRoomName = "";
+  }
 }
