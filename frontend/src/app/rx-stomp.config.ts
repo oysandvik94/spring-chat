@@ -5,10 +5,10 @@ export const myRxStompConfig: RxStompConfig = {
 
   brokerURL: `ws://localhost:8080/chat`,
 
-  // connectHeaders: {
-  //   login: 'guest',
-  //   passcode: 'guest'
-  // },
+  connectHeaders: {
+    username: 'guest',
+    passcode: 'guest'
+  },
 
   heartbeatIncoming: 0,
 

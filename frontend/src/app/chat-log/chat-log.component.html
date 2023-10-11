@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-content">
     <p *ngFor="let message of stompService.getActiveChatLog()">
-      <span class="sender">{{ message.from }}: </span>
+      <span class="sender">{{ message.fromUser }}: </span>
       <span class="message">{{ message.body }}</span>
     </p>
   </div>
