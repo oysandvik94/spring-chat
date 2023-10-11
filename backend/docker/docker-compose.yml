@@ -1,0 +1,12 @@
+services:
+
+  db:
+    image: postgres
+    container_name: db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: chatDb
+      POSTGRES_USER: sysadmin
+      POSTGRES_PASSWORD: sysadmin
