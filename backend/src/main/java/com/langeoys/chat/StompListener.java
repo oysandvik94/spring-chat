@@ -5,8 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
@@ -36,17 +34,6 @@ public class StompListener implements ApplicationListener<SessionSubscribeEvent>
     @Autowired
     private EntityManager entityManager;
 
-
-    @MessageMapping("/{roomName}")
-    @Transactional
-    // TODO dont use chatmessage for input
-    public ChatMessage sendChat(@DestinationVariable String roomName, ChatMessage chatMessage) {
-        ChatRoom chatRoom = chatRepository.findByName(roomName);
-        chatRoom.sendMessage(chatMessage);
-        entityManager.persist(chatRoom);
-
-        return chatMessage;
-    }
 
     @GetMapping("/rooms/{username}")
     @Override

@@ -2,7 +2,6 @@ export interface ChatRoom {
   name: string;
   chatMessages: ChatMessage[];
   users: ChatUser[];
-  subscription: any; // TODO Extract this behaviour
 }
 
 export interface ChatMessage {

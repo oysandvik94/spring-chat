@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import { RxStomp } from '@stomp/rx-stomp';
-import { ChatMessage, ChatRoom } from 'src/types/types';
+import { Injectable } from "@angular/core";
+import { RxStomp } from "@stomp/rx-stomp";
+import { ChatRoom, ChatMessage } from "src/types/types";
+import { ChatSubscription } from "./chat-subscription";
 
 @Injectable({
   providedIn: 'root',
@@ -10,49 +11,41 @@ export class RxStompService extends RxStomp {
     super();
   }
 
-  activeRoom!: ChatRoom;
-  chatSubscriptions: ChatRoom[] = [];
+  activeRoom!: ChatSubscription;
+  chatSubscriptions: ChatSubscription[] = [];
   activeUser!: string;
 
   public getChatRooms(): string[] {
-    return this.chatSubscriptions.map((x) => x.name);
+    return this.chatSubscriptions.map((x) => x.getRoomName());
   }
 
   public joinRoom(newRoomName: string): void {
-    let subscription = this.watch('/topic/' + newRoomName, { "username": this.activeUser}).subscribe(
-      (message) => {
-        let chatMessage = JSON.parse(message.body) as ChatMessage;
-        this.chatSubscriptions
-          .filter((x) => x.name == this.activeRoom.name)[0]
-          .chatMessages.push(chatMessage);
-      },
-    );
+    const observable = this.watch('/topic/' + newRoomName, { "username": this.activeUser});
 
+    // TODO retrieve chatroom from api
     let newChatRoom: ChatRoom = {
         name: newRoomName,
-        subscription: subscription,
         chatMessages: [],
-        users: []
+        users: [],
     };
-    this.chatSubscriptions.push(newChatRoom);
-    this.activeRoom = newChatRoom;
+    const newChatSubscription = new ChatSubscription(newChatRoom, observable);
+    this.chatSubscriptions.push(newChatSubscription);
+    this.activeRoom = newChatSubscription;
   }
 
   public getActiveChatLog(): ChatMessage[] {
     if (this.chatSubscriptions.length < 1 || !this.activeRoom) return [];
 
-    return this.activeRoom.chatMessages;
+    return this.activeRoom.getChatLog();
   }
 
   public sendMessage(newMessageString: string): void {
-    let newMessage = {
-      body: newMessageString,
-      fromUser: this.activeUser,
-      roomName: this.activeRoom.name,
-    };
     this.publish({
-      destination: '/app/' + this.activeRoom.name,
-      body: JSON.stringify(newMessage),
+      destination: '/app/' + this.activeRoom.getRoomName(),
+      body: newMessageString,
+      headers: {
+        "username": this.activeUser,
+      }
     });
   }
 }

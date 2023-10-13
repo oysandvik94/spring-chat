@@ -1,11 +1,12 @@
 <div class="join-form">
-  <input id="join-input" type="text" class="chat-text-input" pInputText [(ngModel)]="newRoomName" />
-  <button
-    pButton
-    type="button"
-    class="chat-button"
-    (click)="joinRoom()"
-  >
+  <input
+    id="join-input"
+    type="text"
+    class="chat-text-input"
+    pInputText
+    [(ngModel)]="newRoomName"
+  />
+  <button pButton type="button" class="chat-button" (click)="joinRoom()">
     Join
   </button>
 </div>
@@ -15,5 +16,11 @@
   styleClass="chat-list-box"
   [options]="stompService.chatSubscriptions"
   [(ngModel)]="stompService.activeRoom"
-  optionLabel="name"
-></p-listbox>
+>
+  <ng-template let-room pTemplate="item">
+    <div class="flex align-items-center">
+      <span>{{ room.getRoomName() }}</span>
+      <span>{{ room.unreadMessages }}</span>
+    </div>
+  </ng-template>
+</p-listbox>
