@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { RxStompService } from '../rx-stomp.service';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
-import { ChatRoom } from 'src/types/types';
+import { ChatRoom, ChatUser } from 'src/types/types';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-username-splash',
@@ -19,12 +20,32 @@ export class UsernameSplashComponent {
   ) {}
 
   joinChat() {
-    this.stompService.activeUser = this.username;
     this.dataService
-      .getChatRooms(this.stompService.activeUser)
-      .subscribe((data: ChatRoom[]) => {
-        data.forEach((room: ChatRoom) => this.stompService.joinRoom(room.name));
+      .getChatUser(this.username)
+      .pipe(
+        catchError((error: any) => {
+          if (error.status === 404) {
+            this.dataService
+              .createUser(this.username)
+              .subscribe((data: ChatUser) => {
+                this.stompService.login(data);
+                this.router.navigate(['/chat']);
+              });
+          }
+          return throwError(() => error);
+        }),
+      )
+      .subscribe((data: ChatUser) => {
+        this.stompService.login(data);
+
+        this.dataService
+          .getChatRooms(data.username)
+          .subscribe((data: ChatRoom[]) => {
+            data.forEach((room: ChatRoom) =>
+              this.stompService.joinRoom(room.name),
+            );
+          });
+        this.router.navigate(['/chat']);
       });
-    this.router.navigate(['/chat']);
   }
 }

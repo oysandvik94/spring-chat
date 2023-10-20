@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { ChatRoom } from 'src/types/types';
+import { ChatRoom, ChatUser, Notification } from 'src/types/types';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,34 @@ export class DataService {
   public getChatRooms(username: string): Observable<ChatRoom[]> {
     return this.httpClient
       .get<ChatRoom[]>(`${this.API_URL}/rooms/${username}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  public getChatUser(username: string): Observable<ChatUser> {
+    return this.httpClient
+      .get<ChatUser>(`${this.API_URL}/users/${username}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  public createUser(username: string): Observable<ChatUser> {
+    return this.httpClient
+      .post<ChatUser>(`${this.API_URL}/users`, username)
+      .pipe(catchError(this.handleError));
+  }
+
+  public acknowledgeNotifications(userId: number, notificationIds: number[]) {
+    this.httpClient
+      .post(`${this.API_URL}/notifications/read`, {
+        notificationIds: notificationIds,
+        userId: userId,
+      })
+      .pipe(catchError(this.handleError))
+      .subscribe();
+  }
+
+  public getNotificationsForUser(userId: number): Observable<Notification[]> {
+    return this.httpClient
+      .get<Notification[]>(`${this.API_URL}/notifications/${userId}`)
       .pipe(catchError(this.handleError));
   }
 
@@ -30,8 +58,6 @@ export class DataService {
       );
     }
     // Return an observable with a user-facing error message.
-    return throwError(
-      () => new Error('Something bad happened; please try again later.'),
-    );
+    return throwError(() => error);
   }
 }

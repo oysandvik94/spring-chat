@@ -29,6 +29,10 @@ public class ChatRoom {
     @ManyToMany(mappedBy = "chatRooms")
     private List<ChatUser> users = new ArrayList<>();
 
+    public List<ChatUser> getUsers() {
+        return users;
+    }
+
     protected ChatRoom() {
     }
 

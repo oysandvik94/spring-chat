@@ -5,10 +5,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
 
 import { RxStompService } from './rx-stomp.service';
-import { rxStompServiceFactory } from './rx-stomp-service-factory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChatLogComponent } from './chat-log/chat-log.component';
 import { ChatRoomFormComponent } from './chat-room-form/chat-room-form.component';
@@ -17,8 +16,7 @@ import { ChatPageComponent } from './chat-page/chat-page.component';
 import { UsernameSplashComponent } from './username-splash/username-splash.component';
 import { Observable } from 'rxjs';
 
-export const activeUserGuard: CanActivateFn = (
-):
+export const activeUserGuard: CanActivateFn = ():
   | Observable<boolean | UrlTree>
   | Promise<boolean | UrlTree>
   | boolean
@@ -27,7 +25,7 @@ export const activeUserGuard: CanActivateFn = (
 
   const isAnonymous = !currentUser;
   if (isAnonymous) {
-    return inject(Router).navigate(["/"]);
+    return inject(Router).navigate(['/']);
   }
 
   return true;
@@ -50,18 +48,13 @@ export const activeUserGuard: CanActivateFn = (
     BrowserModule,
     RouterModule.forRoot([
       { path: '', component: UsernameSplashComponent },
-      { path: 'chat', component: ChatPageComponent, canActivate: [activeUserGuard] }
-    ])
+      {
+        path: 'chat',
+        component: ChatPageComponent,
+        canActivate: [activeUserGuard],
+      },
+    ]),
   ],
-  providers: [
-    {
-      provide: RxStompService,
-      useFactory: rxStompServiceFactory,
-    },
-  ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
-
-
+export class AppModule {}

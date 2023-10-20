@@ -16,11 +16,17 @@
   styleClass="chat-list-box"
   [options]="stompService.chatSubscriptions"
   [(ngModel)]="stompService.activeRoom"
+  (onChange)="setRoomAsRead()"
 >
   <ng-template let-room pTemplate="item">
-    <div class="flex align-items-center">
+    <div class="flex align-items-center justify-content-between">
       <span>{{ room.getRoomName() }}</span>
-      <span>{{ room.unreadMessages }}</span>
+      <div class="right-align" *ngIf="room.getNotificationCount() > 0">
+        <p-badge
+          [value]="room.getNotificationCount()"
+          severity="info"
+        ></p-badge>
+      </div>
     </div>
   </ng-template>
 </p-listbox>

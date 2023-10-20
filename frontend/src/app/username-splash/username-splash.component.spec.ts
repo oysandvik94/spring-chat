@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UsernameSplashComponent } from './username-splash.component';
+import { UsernameSplashComponent } from './UsernameSplashComponent';
 
 describe('UsernameSplashComponent', () => {
   let component: UsernameSplashComponent;

@@ -5,17 +5,17 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 
-/**
- * ChatMessage
- */
+import java.util.List;
+
+/** ChatMessage */
 @Entity
 public class ChatMessage {
 
-    /**
-     *
-     */
+    /** */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
@@ -35,8 +35,7 @@ public class ChatMessage {
         this.fromUser = fromUser;
     }
 
-    protected ChatMessage() {
-    }
+    protected ChatMessage() {}
 
     public Long getId() {
         return Id;
@@ -58,9 +57,7 @@ public class ChatMessage {
         this.fromUser = from;
     }
 
-    public void setChatroom(ChatRoom chatRoom2) {
-        this.chatroom = chatRoom2;
-
+    public void setChatroom(ChatRoom chatRoom) {
+        this.chatroom = chatRoom;
     }
-
 }
