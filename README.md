@@ -2,7 +2,7 @@
 
 Demo webapp
 
-For å kjøre:
+## Kjøring
 
 ### Db
 
@@ -25,3 +25,13 @@ cd frontend
 npm install
 npm start
 ```
+
+## Bruking
+
+Dette er en enkel chat app over websocket.
+
+1. Logg inn med et brukernavn
+2. Skriv inn navn på ønsket chat rom øverst til venstre, og klikk join
+3. Send meldinger
+
+Åpne browser i inkognito for å teste flere sessions som chatter med hverandre
