@@ -23,27 +23,25 @@ import com.langeoys.chat.chat.dtos.NotificationDto;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
-/*
- * NextMovieController
- */
 @RequestMapping("/api")
 @RestController
 public class ChatController {
-    record NotificationtAck(Long userId, List<Long> notificationIds) {}
+    record NotificationtAck(Long userId, List<Long> notificationIds) {
+    }
 
-    @Autowired private ChatUserRepository chatUserRepository;
-
-    @Autowired private NotificationRepository notificationRepository;
+    @Autowired
+    private ChatUserRepository chatUserRepository;
+    @Autowired
+    private NotificationRepository notificationRepository;
+    @Autowired
+    private EntityManager entityManager;
 
     Logger logger = LoggerFactory.getLogger(ChatController.class);
-
-    @Autowired private EntityManager entityManager;
 
     @GetMapping("/rooms/{username}")
     public List<ChatRoomDto> getRooms(@PathVariable String username) {
         Optional<ChatUser> chatUser = chatUserRepository.getByUsername(username);
 
-        // return 404
         if (chatUser.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "User with id " + username + " not found");
@@ -67,12 +65,10 @@ public class ChatController {
         for (Long notificationId : notificationAck.notificationIds()) {
             Optional<Notification> notification = notificationRepository.findById(notificationId);
 
-            if (notification.isEmpty()) {
-                logger.warn("notification with id " + notificationId + " not found");
-            }
-
-            notification.get().setRead(true);
-            entityManager.persist(notification.get());
+            notification.ifPresent(notif -> {
+                notif.setRead(true);
+                entityManager.persist(notification.get());
+            });
         }
 
         entityManager.persist(user.get());

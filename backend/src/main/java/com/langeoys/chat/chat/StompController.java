@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
 import com.langeoys.chat.ChatHeaders;
@@ -34,6 +35,7 @@ public class StompController {
     @Autowired private ChatSession chatSession;
 
 
+    @SubscribeMapping("/{roomName}")
     @Transactional
     public void subscribeToRoom(
             @DestinationVariable String roomName,
